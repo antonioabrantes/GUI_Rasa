@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chatbot Interface</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .chat-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .chat-message {
+      background-color: #f5f5f5;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .user-message {
+      background-color: #e9ecef;
+    }
+
+    .bot-message {
+      background-color: #dcf8c6;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div id="chat-messages"></div>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="user-input" placeholder="Digite sua mensagem">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button" id="send-button">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.getElementById('send-button').addEventListener('click', function() {
+      sendMessage();
+    });
+
+    document.getElementById('user-input').addEventListener('keyup', function(event) {
+      if (event.keyCode === 13) {
+        sendMessage();
+      }
+    });
+
+    function sendMessage() {
+      var userInput = document.getElementById('user-input').value;
+
+      if (userInput.trim() !== '') {
+        var userMessageElement = createMessageElement(userInput, 'user-message');
+        document.getElementById('chat-messages').appendChild(userMessageElement);
+
+        var botMessage = 'Resposta do chatbot'; // Aqui você pode adicionar a lógica para obter a resposta do chatbot
+        var botMessageElement = createMessageElement(botMessage, 'bot-message');
+        document.getElementById('chat-messages').appendChild(botMessageElement);
+
+        document.getElementById('user-input').value = '';
+      }
+    }
+
+    function createMessageElement(message, className) {
+      var messageElement = document.createElement('div');
+      messageElement.className = 'chat-message ' + className;
+      var messageTextElement = document.createElement('p');
+      messageTextElement.innerText = message;
+      messageElement.appendChild(messageTextElement);
+      return messageElement;
+    }
+  </script>
+</body>
+</html>
