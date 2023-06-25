@@ -112,7 +112,8 @@ class ActionRememberWhere(Action):
             dispatcher.utter_message(text=msg)
             return []
 
-        tz_string = city_db.get(current_place, None)
+        current_place_lower = current_place.lower()
+        tz_string = city_db.get(current_place_lower, None)
         if not tz_string:
             msg = f"It's I didn't recognize {current_place}. Is it spelled correctly?"
             dispatcher.utter_message(text=msg)
@@ -122,6 +123,24 @@ class ActionRememberWhere(Action):
         dispatcher.utter_message(text=msg)
         return [SlotSet("location", current_place)]
 
+class ActionAnswerWhere(Action):
+
+    def name(self) -> Text:
+        return "action_answer_where"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        current_place = tracker.get_slot("location")
+
+        if not current_place:
+            msg = f"I don't know where you live"
+            dispatcher.utter_message(text=msg)
+            return []
+
+        msg = f"You live in {current_place}"
+        dispatcher.utter_message(text=msg)
+        return []
 
 class ActionTimeDifference(Action):
 
@@ -133,6 +152,12 @@ class ActionTimeDifference(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         timezone_to = next(tracker.get_latest_entity_values("place"), None)
         timezone_in = tracker.get_slot("location")
+
+        timezone_to = timezone_to.lower()
+        timezone_in = timezone_in.lower()
+
+        #dispatcher.utter_message(text=timezone_in)
+        #return []
 
         if not timezone_in:
             msg = f"To calculate the time difference I need to know where you live"
@@ -155,6 +180,8 @@ class ActionTimeDifference(Action):
         max_t, min_t = max(t1, t2), min(t1, t2)
         diff_seconds = dateparser.parse(str(max_t)[:19]) - dateparser.parse(str(min_t)[:19])
         diff_hours = int(diff_seconds.seconds / 3600)
+        interval_seconds = abs(max_t.timestamp() - min_t.timestamp())
+        interval_hours = int(interval_seconds / 3600)
         msg = f"There is a {min(diff_hours, 24 - diff_hours)}H time difference."
         dispatcher.utter_message(text=msg)
         return []

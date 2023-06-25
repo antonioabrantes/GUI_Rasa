@@ -2,12 +2,12 @@ version: "3.1"
 
 stories:
 
-- story: happy path
-  steps:
-#  - intent: inquire_time
-#  - action: utter_inquire_time
-  - intent: where_i_live
-  - action: utter_where_i_live
+#- story: happy path
+#  steps:
+#  - intent: ask_where_i_live
+#  - action: utter_ask_where_i_live
+  #- intent: where_i_live
+  #- action: utter_where_i_live
 
 - story: happy path
   steps:
