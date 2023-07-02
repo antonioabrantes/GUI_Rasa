@@ -23,11 +23,15 @@
 # rasa run --enable-api -m ./models/20230623-154913-tall-mythology.tar.gz --cors "*"
 # certifique-se do modelo ter sido lido e vir a mensagem Rasa server is up and running
 # agora rode este programa main.py
+# lembre-se de em uma outra janela Termianl rodar em tesauro/rasa run actions
 
+# Para atualizar este projeto no GITHUB:
 # atualize diretorio "C:\Users\otimi\OneDrive\Documentos\GitHub\Chatbot"
 # verifique https://www.github.com/antonioabrantes/Chatbot
 # https://containers.back4app.com/apps
 # selecione chatbot
+
+# pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
 
 
 from flask import Flask, render_template
@@ -37,8 +41,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def homepage():
-    return render_template("tkinter3.htm")
-
+    # return render_template("tkinter3.htm")
+    # return render_template("tkinter3_rasa.htm")
+    return render_template("tkinter3_codepen.htm")
 
 @app.route("/tkinter3.htm")
 def tkinter3():

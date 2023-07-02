@@ -5,6 +5,7 @@ intents:
   - goodbye
   - affirm
   - deny
+  - stop
   - mood_great
   - mood_unhappy
   - bot_challenge
@@ -12,19 +13,46 @@ intents:
   - where_i_live
   - ask_where_i_live
   - inquire_time_difference
+  - buy_pizza
+  - inform
+  - clear_pizza
+  - buy_phone_laptop
+  - latest_news_phones_laptops
+  - give_information
+  - budget_available
 
 entities:
   - name
   - place
   - place_memory
-#  - pizza_size
-#  - pizza_type
+  - pizza_size
+  - pizza_type
+  - category
+  - ram
+  - battery
+  - camera
+  - budget
+  - vegetarian_entity
 
 actions:
   - action_tell_time
   - action_remember_where
   - action_answer_where
   - action_time_difference
+  - validate_simple_pizza_forms
+  - action_clear_pizza
+  - utter_how_can_I_help
+  - utter_ask_ram
+  - utter_ask_camera
+  - utter_ask_battery
+  - utter_ask_budget
+  - utter_wrong_ram
+  - utter_wrong_camera
+  - utter_wrong_battery
+  - utter_wrong_budget
+  - utter_goodbye
+  - action_search
+  - action_show_latest_news
 
 slots:
   name:
@@ -37,26 +65,112 @@ slots:
     mappings:
     - type: from_entity
       entity: place_memory
-#  pizza_size:
-#    type: text
-#    influence_conversation: true
-#    mappings:
-#    - type: from_entity
-#      entity: pizza_size
-#  pizza_type:
-#    type: text
-#    influence_conversation: true
-#    mappings:
-#    - type: from_entity
-#      entity: pizza_type
+  pizza_size:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pizza_size
+  pizza_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pizza_type
+  battery:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: battery
+  budget:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: budget
+  camera:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: camera
+  category:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: category
+  ram:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: ram
+  vegetarian:
+     type: bool
+     initial_value: null
+     influence_conversation: true
+     mappings:
+     - type: from_entity
+       entity: vegetarian_entity
+
+forms:
+  simple_pizza_form:
+    required_slots:
+    - pizza_size
+    - pizza_type
+
+  product_search_form:
+    required_slots:
+    - battery
+    - budget
+    - camera
+    - category
+    - ram
+
+  fancy_pizza_form:
+    required_slots:
+    - vegetarian
+    - pizza_size
+    - pizza_type
 
 #forms:
 #  simple_pizza_form:
-#    required_slots:
-#    - pizza_size
-#    - pizza_type
+#    pizza_size:
+#    - entity: pizza_size
+#      type: from_entity
+#    pizza_type:
+#    - entity: pizza_type
+#      type: from entity
 
 responses:
+  utter_how_can_I_help:
+  - text: "Welcome. I'm your shopping bot. I can help you with finding a phone or laptop
+   and providing latest news for them."
+
+  utter_ask_ram:
+  - text: "How much GB RAM are you looking for?"
+
+  utter_ask_camera:
+  - text: "What megapixel camera are you looking for?"
+
+  utter_ask_battery:
+  - text: "How much battery capacity are you looking for in the mobile?"
+
+  utter_ask_budget:
+  - text: "Whats your budget?"
+
+  utter_wrong_budget:
+  - text: "Please enter the budget is USD and below 4000"
+
+  utter_wrong_ram:
+  - text: "Please enter the correct RAM value"
+
+  utter_wrong_battery:
+  - text: "Please enter the correct value for battery"
+
+  utter_wrong_camera:
+  - text: "Please enter the correct value for camera"
+
+  utter_goodbye:
+  - text: "It was great talking to you! Goodbye!"
+
   utter_greet:
   - text: "Hey dear {name}! How are you?"
   - text: "Hello there {name} :)"
@@ -71,20 +185,34 @@ responses:
   utter_happy:
   - text: "Great, carry on!"
 
-  utter_goodbye:
-  - text: "Bye"
-
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
-
-#  utter_inquire_time:
-#  - text: "Hello {place}."
 
   utter_where_i_live:
   - text: "You live in {location}, vou guardar isso !."
 
   utter_ask_where_i_live:
   - text: "You live in {location}."
+
+  utter_submit:
+  - text: "I will now order a pizza for you!"
+
+  utter_pizza_slots:
+  - text: "I will order a {pizza_size} {pizza_type} pizza"
+
+  utter_ask_continue:
+  - text: "Are you sure you want to stop the form ?"
+
+  utter_ask_pizza_size:
+  - text: "What size would you like your pizza to be ?"
+
+  utter_ask_pizza_type:
+  - text: "What kind of pizza would you like to buy ?"
+
+  utter_buy_phone_laptop:
+  - text: "Good idea !"
+
+
 
 session_config:
   session_expiration_time: 60
